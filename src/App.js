@@ -1,8 +1,8 @@
 function App() {
   return (
-    <div className="background">    
+    <div className="background"> 
+         <h1>Receptboken</h1>   
     <div className="container">
-        <h1>Receptboken</h1>
         <button>Sök recept</button>
         <button>Laga med det jag har</button>
         <button>Skapa nytt recept</button>
