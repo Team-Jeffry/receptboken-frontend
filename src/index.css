@@ -20,7 +20,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
+.title {
   margin-top: 200px;
   text-align: center;
   font-size: 50px;
