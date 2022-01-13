@@ -52,8 +52,8 @@ getRecipeFromServer() {
     }
   }
 
-  getARecipe() {
-    axios.get('http://localhost:8080/v1/recipe/get/mat')
+  componentDidMount() {
+    axios.get('http://localhost:8080/v1/recipe/get/recept')
       .then(res => {
         console.log(res)
         const recipe = res.data;
