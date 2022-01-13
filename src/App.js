@@ -1,3 +1,5 @@
+import ViewRecipe from './components/ViewRecipe';
+
 function App() {
   return (
     <div className="background"> 
@@ -6,7 +8,9 @@ function App() {
         <button>Sök recept</button>
         <button>Laga med det jag har</button>
         <button>Skapa nytt recept</button>
+        <ViewRecipe />
     </div>
+    
 </div>
   );
 }
