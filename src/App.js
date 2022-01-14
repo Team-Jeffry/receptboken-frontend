@@ -1,14 +1,17 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Suggest from "./component/Suggest";
+import Home from "./component/Home";
+
 function App() {
-  return (
-    <div className="background"> 
-         <h1 className="title">Receptboken</h1>   
-    <div className="container">
-        <button>Sök recept</button>
-        <button>Laga med det jag har</button>
-        <button>Skapa nytt recept</button>
-    </div>
-</div>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/suggest" element={<Suggest />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
