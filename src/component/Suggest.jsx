@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
+import Axios from "axios";
 
 const keyCodes = {
     comma: 188,
@@ -19,6 +20,7 @@ export default class Suggest extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAddition = this.handleAddition.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
     handleDelete(i) {
@@ -43,6 +45,22 @@ export default class Suggest extends Component {
         this.setState({ tags: newTags });
     }
 
+    async submit() {
+
+        const ingredients = []
+
+        this.state.tags.forEach(element => {            
+            ingredients.push({ name: element.text })
+        })        
+
+        console.log(ingredients);
+
+        await Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
+            .then((response) => {
+                console.log(response)
+            }).catch(error => console.log(error))
+    }
+
     render() {
         const { tags } = this.state;
         return (
@@ -63,7 +81,7 @@ export default class Suggest extends Component {
                             handleDrag={this.handleDrag}
                             delimiters={delimiters}
                         />
-                        <button style={{ margin: "20px" }}>Föreslå!</button>
+                        <button style={{ margin: "20px" }} onClick={this.submit}>Föreslå</button>
                     </div>
                 </div>
             </div>
