@@ -6,7 +6,7 @@ export default class Suggest extends Component {
             <div>
                 <div className="suggest">
                     <div className="container">
-                        <h1>Henlo</h1>
+                        <h1>Laga med det jag har</h1>
                     </div>
                 </div>
             </div>
