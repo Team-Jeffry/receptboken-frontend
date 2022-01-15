@@ -21,7 +21,8 @@ body {
 }
 
 .title {
-  margin-top: 200px;
+  padding-top: 300px;
+  margin-top: 0;
   text-align: center;
   font-size: 50px;
 }
@@ -66,14 +67,26 @@ button {
   height: 50px;
 }*/
 
-.background {
-  position: absolute;
+.home {
+  position: relative;
   top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   background-size: cover;
   background-position: center;
   background-image: url('images/background.jpeg');
+}
+
+.suggest {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80vh;
+  background-size: cover;
+  background-position: center;
+  background-color: #fff;
 }
 
 .blurred {
