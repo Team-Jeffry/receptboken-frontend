@@ -96,7 +96,7 @@ class SaveRecipe extends React.Component {
                                 onChange={(e) => this.handleInputChange(e)}
                             ></input>
                         </div>
-                        <div style={{ display: "flex", justifyContent: "center" }}>
+                        <div style={{ display: "flex", justifyContent: "center", paddingTop: "40px"}}>
                             <button>Avbryt</button>
                             <button onClick={this.submit()}>Spara recept</button>
                         </div>
