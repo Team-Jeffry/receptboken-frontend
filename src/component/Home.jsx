@@ -4,7 +4,7 @@ import { Link, animateScroll as scroll } from "react-scroll";
 export default class Home extends Component {
     render() {
         return (
-            <div className="home">
+            <div ref={this.myRef} className="home">
                 <h1 className="title">Receptboken</h1>
                 <div className="container">
                     <button>Sök recept</button>
@@ -19,4 +19,3 @@ export default class Home extends Component {
         );
     }
 }
-

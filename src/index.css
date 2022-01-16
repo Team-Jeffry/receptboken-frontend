@@ -24,7 +24,7 @@ body {
     font-size: 50px;
 }
 
-.title-smaller {        
+.title-smaller {
     padding-bottom: 30px;
     margin-top: 0;
     text-align: center;
@@ -82,7 +82,7 @@ button {
 }
 
 .suggest {
-    position: relative;    
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -138,7 +138,7 @@ div {
 }
 
 .ReactTags__tagInputField {
-    font-size: large;    
+    font-size: large;
     margin-bottom: 20px;
     padding: 8px;
     border-radius: 6px;
@@ -150,11 +150,15 @@ div {
 }
 
 span {
-    color:black ;
+    color: black;
     background-color: lightgray;
     margin: 4px 4px;
     padding: 6px 10px;
     padding-bottom: 8px;
     border-radius: 6px;
     font-size: small;
+}
+
+mark {
+    background-color: lightgray;
 }

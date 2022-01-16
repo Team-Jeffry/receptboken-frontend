@@ -15,12 +15,24 @@ export default class Suggest extends Component {
 
         this.state = {
             tags: [],
+            suggestions: [],
         };
 
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAddition = this.handleAddition.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
         this.submit = this.submit.bind(this);
+    }
+
+    async componentDidMount() {
+        await Axios.get("http://localhost:8080/v1/ingredient/all").then((response) => {
+            const ingredients = response.data.map((element) => {
+                return { id: element.name, text: element.name}
+            });
+            this.setState({ suggestions: ingredients });
+        });
+
+        console.log(this.state.suggestions)
     }
 
     handleDelete(i) {
@@ -46,23 +58,23 @@ export default class Suggest extends Component {
     }
 
     async submit() {
+        const ingredients = [];
 
-        const ingredients = []
-
-        this.state.tags.forEach(element => {            
-            ingredients.push({ name: element.text })
-        })        
+        this.state.tags.forEach((element) => {
+            ingredients.push({ name: element.text });
+        });
 
         console.log(ingredients);
 
         await Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
             .then((response) => {
-                console.log(response)
-            }).catch(error => console.log(error))
+                console.log(response);
+            })
+            .catch((error) => console.log(error));
     }
 
     render() {
-        const { tags } = this.state;
+        const { tags, suggestions } = this.state;
         return (
             <div>
                 <div className="suggest">
@@ -75,13 +87,16 @@ export default class Suggest extends Component {
                             allowDragDrop={true}
                             allowUnique={true}
                             placeholder="Vad har du hemma?"
+                            suggestions={suggestions}
                             tags={tags}
                             handleDelete={this.handleDelete}
                             handleAddition={this.handleAddition}
                             handleDrag={this.handleDrag}
                             delimiters={delimiters}
                         />
-                        <button style={{ margin: "20px" }} onClick={this.submit}>Föreslå</button>
+                        <button style={{ margin: "20px" }} onClick={this.submit}>
+                            Föreslå
+                        </button>
                     </div>
                 </div>
             </div>
