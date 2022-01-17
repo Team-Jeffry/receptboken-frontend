@@ -22,7 +22,9 @@ class SaveRecipe extends React.Component {
     this.state = {
       tags: [],
       suggestions: [],
-      requestbody: {
+      categoryTags: [],
+      categorySuggestions: [],
+      saveRecipeJson: {
         name: "",
         description: "",
         instruction: "",
@@ -33,11 +35,7 @@ class SaveRecipe extends React.Component {
             description: "",
           },
         ],
-        categoryNames: [
-          {
-            name: "",
-          },
-        ],
+        categoryNames: [],
       },
     };
   }
@@ -52,42 +50,66 @@ class SaveRecipe extends React.Component {
     const name = target.id;
 
     this.setState({
-      requestbody: {
-        ...this.state.requestbody,
+      saveRecipeJson: {
+        ...this.state.saveRecipeJson,
         [name]: value,
       },
     });
   }
 
   async submit() {
-    const requestbody = this.state.requestbody;
+    const ingredients = [];
 
-    await Axios.post("http://localhost:8080/v1/recipe/save", {
-      name: requestbody.name,
-      description: requestbody.description,
-      instruction: requestbody.instruction,
-      time: requestbody.time,
-      ingredients: [
-        {
-          name: requestbody.ingredients.name,
-          description: requestbody.ingredients.description,
-        },
-      ],
-      categoryNames: [
-        {
-          name: requestbody.categoryNames.name,
-        },
-      ],
+    this.state.tags.forEach((element) => {
+      ingredients.push({
+        name: element.text,
+        description: element.description,
+      });
     });
+
+    const requestBody = {
+      name: this.state.saveRecipeJson.name,
+      description: this.state.saveRecipeJson.description,
+      instruction: this.state.saveRecipeJson.instruction,
+      time: this.state.saveRecipeJson.time,
+      ingredients: ingredients,
+      categoryNames: ["Frukt"],
+    };
+
+    console.log(requestBody);
+
+    await Axios.post("http://localhost:8080/v1/recipe/save", requestBody)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   async componentDidMount() {
     await Axios.get("http://localhost:8080/v1/ingredient/all").then(
       (response) => {
         const ingredients = response.data.map((element) => {
-          return { id: element.name, text: element.name };
+          return {
+            id: element.name,
+            text: element.name,
+            description: element.description,
+          };
         });
         this.setState({ suggestions: ingredients });
+      }
+    );
+
+    await Axios.get("http://localhost:8080/v1/category/all").then(
+      (response) => {
+        const categories = response.data.map((element) => {
+          return {
+            id: element.name,
+            text: element.name,
+          };
+        });
+        this.setState({ categorySuggestions: categories });
       }
     );
   }
@@ -99,8 +121,19 @@ class SaveRecipe extends React.Component {
     });
   }
 
+  handleDeleteCategory(i) {
+    const { categoryTags } = this.state;
+    this.setState({
+      categoryTags: categoryTags.filter((tag, index) => index !== i),
+    });
+  }
+
   handleAddition(tag) {
     this.setState((state) => ({ tags: [...state.tags, tag] }));
+  }
+
+  handleAdditionCategory(tag) {
+    this.setState((state) => ({ categoryTags: [...state.categoryTags, tag] }));
   }
 
   handleDrag(tag, currPos, newPos) {
@@ -115,15 +148,52 @@ class SaveRecipe extends React.Component {
   }
 
   render() {
-    const { tags, suggestions } = this.state;
+    const tags = this.state.tags;
+    const suggestions = this.state.suggestions;
+
+    const categoryTags = this.state.categoryTags;
+    const categorySuggestions = this.state.categorySuggestions;
 
     return (
       <div>
-        <div className="save">
+        <div className="save-recipe">
           <div className="container">
             <div className="title-smaller">
               <h1>Spara ett nytt recept</h1>
             </div>
+            <form onSubmit={this.onSubmit}>
+              <input
+                onChange={(e) => this.handleInputChange(e)}
+                type="text"
+                id="name"
+                value={this.state.saveRecipeJson.name}
+                placeholder="Namn på recept"
+              />
+              <br />
+              <input
+                onChange={(e) => this.handleInputChange(e)}
+                type="text"
+                id="description"
+                value={this.state.saveRecipeJson.description}
+                placeholder="Beskrivning av receptet"
+              />
+              <br />
+              <input
+                onChange={(e) => this.handleInputChange(e)}
+                type="text"
+                id="instruction"
+                value={this.state.saveRecipeJson.instruction}
+                placeholder="Instruktioner till receptet"
+              />
+              <br />
+              <input
+                onChange={(e) => this.handleInputChange(e)}
+                type="number"
+                id="time"
+                value={this.state.saveRecipeJson.time}
+                placeholder="Tillagningstid"
+              />
+            </form>
             <ReactTags
               inputFieldPosition="top"
               allowDragDrop={true}
@@ -136,6 +206,19 @@ class SaveRecipe extends React.Component {
               handleDrag={this.handleDrag}
               delimiters={delimiters}
             />
+            <br />
+            <ReactTags
+              inputFieldPosition="top"
+              allowDragDrop={true}
+              allowUnique={true}
+              placeholder="Kategori"
+              suggestions={categorySuggestions}
+              tags={categoryTags}
+              handleDelete={this.handleDeleteCategory}
+              handleAddition={this.handleAdditionCategory}
+              delimiters={delimiters}
+            />
+            <br />
             <button style={{ margin: "20px" }} onClick={this.submit}>
               Spara
             </button>
