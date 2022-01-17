@@ -27,12 +27,10 @@ export default class Suggest extends Component {
     async componentDidMount() {
         await Axios.get("http://localhost:8080/v1/ingredient/all").then((response) => {
             const ingredients = response.data.map((element) => {
-                return { id: element.name, text: element.name}
+                return { id: element.name, text: element.name };
             });
             this.setState({ suggestions: ingredients });
         });
-
-        console.log(this.state.suggestions)
     }
 
     handleDelete(i) {
@@ -64,8 +62,6 @@ export default class Suggest extends Component {
             ingredients.push({ name: element.text });
         });
 
-        console.log(ingredients);
-
         await Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
             .then((response) => {
                 console.log(response);
@@ -82,7 +78,7 @@ export default class Suggest extends Component {
                         <div className="title-smaller">
                             <h1>Laga med det jag har</h1>
                         </div>
-                        <ReactTags
+                        <ReactTags                            
                             inputFieldPosition="top"
                             allowDragDrop={true}
                             allowUnique={true}
