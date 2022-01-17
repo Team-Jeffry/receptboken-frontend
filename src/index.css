@@ -76,12 +76,9 @@ button {
   background-image: url('images/background.jpeg');
 }
 
-.modal-body {
-  color: #063752 !important;
-}
-
-.form-control {
-  border-color: #063752;
+.modal-title {
+  text-align: center !important;
+  
 }
 
 .modal-header, .modal-footer {
