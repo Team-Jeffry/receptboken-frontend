@@ -149,6 +149,17 @@ div {
     outline: none;
 }
 
+.ReactTags__activeSuggestion span,
+.ReactTags__activeSuggestion mark {
+    background-color: lightgray;
+}
+
+.ReactTags__activeSuggestion span:hover > mark,
+.ReactTags__activeSuggestion span:hover {
+    background-color: darkgray;
+}
+
+.ReactTags__tag,
 span {
     color: black;
     background-color: lightgray;
@@ -161,4 +172,8 @@ span {
 
 mark {
     background-color: lightgray;
+}
+
+li {
+    list-style: none;
 }
