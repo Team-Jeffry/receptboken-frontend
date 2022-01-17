@@ -1,149 +1,149 @@
 import React, { useRef } from "react";
+import { WithContext as ReactTags } from "react-tag-input";
 import Axios from "axios";
 
+const keyCodes = {
+  comma: 188,
+  enter: [10, 13],
+};
+
+const delimiters = [...keyCodes.enter, keyCodes.comma];
+
 class SaveRecipe extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.submit = this.submit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleAddition = this.handleAddition.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.submit = this.submit.bind(this);
 
-        this.state = {
-            requestbody: {
-                name: "",
-                description: "",
-                instruction: "",
-                time: 0,
-                ingredients: [
-                    {
-                        name: "",
-                        description: "",
-                    },
-                ],
-                categoryNames: [
-                    {
-                        name: "",
-                    },
-                ],
-            },
-        };
-    }
+    this.state = {
+      tags: [],
+      suggestions: [],
+      requestbody: {
+        name: "",
+        description: "",
+        instruction: "",
+        time: 0,
+        ingredients: [
+          {
+            name: "",
+            description: "",
+          },
+        ],
+        categoryNames: [
+          {
+            name: "",
+          },
+        ],
+      },
+    };
+  }
 
-    render() {
-        return (
-            <div className="save-recipe">
-                <div className="blurredBackground"></div>
-                <div className="container p-10">
-                    <h1 className="h1-padded">Skapa nytt recept</h1>
-                    <form className="row g-3" onSubmit={this.onSubmit}>
-                        <div className="col-md-4">
-                            <label for="recipeName">Receptnamn *</label>
-                            <input
-                                id="recipeName"
-                                value={this.state.requestbody.name}
-                                className="form-control"
-                                type="text"
-                                onChange={(e) => this.handleInputChange(e)}
-                            ></input>
-                        </div>
-                        <div className="col-md-4">
-                            <label for="description">Beskrivning av recept *</label>
-                            <input
-                                id="description"
-                                value={this.state.requestbody.description}
-                                className="form-control"
-                                type="text"
-                                onChange={(e) => this.handleInputChange(e)}
-                            ></input>
-                        </div>
-                        <div className="col-md-4">
-                            <label for="instruction">Instruktioner till receptet *</label>
-                            <input
-                                id="instruction"
-                                value={this.state.requestbody.instruction}
-                                className="form-control"
-                                type="text"
-                                onChange={(e) => this.handleInputChange(e)}
-                            ></input>
-                        </div>
-                        <div className="col-md-4">
-                            <label for="time">Tid att tillaga *</label>
-                            <input
-                                id="time"
-                                value={this.state.requestbody.time}
-                                className="form-control"
-                                type="text"
-                                onChange={(e) => this.handleInputChange(e)}
-                            ></input>
-                        </div>
-                        <div className="col-md-8">
-                            <label for="ingredientName">Namn på ingrediens *</label>
-                            <input
-                                id="ingredients"
-                                value={this.state.requestbody.ingredients.name}
-                                className="form-control"
-                                type="text"
-                                onChange={(e) => this.handleInputChange(e)}
-                            ></input>
-                        </div>
-                        <div className="col-md-12">
-                            <label for="ingredientDescription">Beskrivning av ingrediens *</label>
-                            <input
-                                id="ingredientDescription"
-                                value={this.state.requestbody.ingredients.description}
-                                className="form-control"
-                                type="text"
-                                onChange={(e) => this.handleInputChange(e)}
-                            ></input>
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "center", paddingTop: "40px"}}>
-                            <button>Avbryt</button>
-                            <button onClick={this.submit()}>Spara recept</button>
-                        </div>
-                    </form>
-                </div>
+  onSubmit(e) {
+    e.preventDefault();
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.id;
+
+    this.setState({
+      requestbody: {
+        ...this.state.requestbody,
+        [name]: value,
+      },
+    });
+  }
+
+  async submit() {
+    const requestbody = this.state.requestbody;
+
+    await Axios.post("http://localhost:8080/v1/recipe/save", {
+      name: requestbody.name,
+      description: requestbody.description,
+      instruction: requestbody.instruction,
+      time: requestbody.time,
+      ingredients: [
+        {
+          name: requestbody.ingredients.name,
+          description: requestbody.ingredients.description,
+        },
+      ],
+      categoryNames: [
+        {
+          name: requestbody.categoryNames.name,
+        },
+      ],
+    });
+  }
+
+  async componentDidMount() {
+    await Axios.get("http://localhost:8080/v1/ingredient/all").then(
+      (response) => {
+        const ingredients = response.data.map((element) => {
+          return { id: element.name, text: element.name };
+        });
+        this.setState({ suggestions: ingredients });
+      }
+    );
+  }
+
+  handleDelete(i) {
+    const { tags } = this.state;
+    this.setState({
+      tags: tags.filter((tag, index) => index !== i),
+    });
+  }
+
+  handleAddition(tag) {
+    this.setState((state) => ({ tags: [...state.tags, tag] }));
+  }
+
+  handleDrag(tag, currPos, newPos) {
+    const tags = [...this.state.tags];
+    const newTags = tags.slice();
+
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
+
+    // re-render
+    this.setState({ tags: newTags });
+  }
+
+  render() {
+    const { tags, suggestions } = this.state;
+
+    return (
+      <div>
+        <div className="save">
+          <div className="container">
+            <div className="title-smaller">
+              <h1>Spara ett nytt recept</h1>
             </div>
-        );
-    }
-
-    onSubmit(e) {
-        e.preventDefault();
-    }
-
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.id;
-
-        this.setState({
-            requestbody: {
-                ...this.state.requestbody,
-                [name]: value,
-            },
-        });
-    }
-
-    async submit() {
-        const requestbody = this.state.requestbody;
-
-        await Axios.post("http://localhost:8080/v1/recipe/save", {
-            name: requestbody.name,
-            description: requestbody.description,
-            instruction: requestbody.instruction,
-            time: requestbody.time,
-            ingredients: [
-                {
-                    name: requestbody.ingredients.name,
-                    description: requestbody.ingredients.description,
-                },
-            ],
-            categoryNames: [
-                {
-                    name: requestbody.categoryNames.name,
-                },
-            ],
-        });
-    }
+            <ReactTags
+              inputFieldPosition="top"
+              allowDragDrop={true}
+              allowUnique={true}
+              placeholder="Ingrediens"
+              suggestions={suggestions}
+              tags={tags}
+              handleDelete={this.handleDelete}
+              handleAddition={this.handleAddition}
+              handleDrag={this.handleDrag}
+              delimiters={delimiters}
+            />
+            <button style={{ margin: "20px" }} onClick={this.submit}>
+              Spara
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default SaveRecipe;
