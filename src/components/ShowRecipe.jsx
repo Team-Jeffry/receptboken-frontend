@@ -16,13 +16,15 @@ class ShowRecipe extends Component {
       ingredients: [],
       categories: [],*/
       },
+      ingredients: [],
+      categories: []
     };
   }
 
   componentDidMount = async () => {
     const postData = {
       recipeName: "Fruktsallad med Jordgubbar",
-      categoryNames: ["Frukt"],
+      categoryNames: ["frukt"],
       time: 12,
     };
 
@@ -33,12 +35,34 @@ class ShowRecipe extends Component {
 
         this.res = res.data;
         this.state.recipe = this.res[0];
-        return this.state.recipe;
+        this.state.ingredients = this.res[0].ingredients;
+        this.state.categories = this.res[0].categories;
       });
   };
 
   handleModalShowHide() {
     this.setState({ showHide: !this.state.showHide });
+  }
+
+  getIngredients() {
+    /* for (let i = 0; i < this.state.recipe.ingredients.length; i++) { 
+      console.log(this.state.recipe.ingredients[i].name);
+    }*/
+
+    /*this.state.recipe.ingredients.forEach(element => {
+      console.log(element)
+    });*/
+    //const allIngredients = this.state.recipe
+    //console.log(this.state.ingredients);
+
+
+
+    return (
+      <ul>
+        <li>hej</li>
+        <li>hej</li>
+      </ul>
+    );
   }
 
   render() {
@@ -49,22 +73,18 @@ class ShowRecipe extends Component {
         </Button>
 
         <Modal show={this.state.showHide}>
-          <Modal.Header closeButton onClick={() => this.handleModalShowHide()}>
-            <Modal.Title className="modal-title">{this.state.recipe.name}</Modal.Title>
+          <Modal.Header className="close-button" closeButton onClick={() => this.handleModalShowHide()}>
           </Modal.Header>
-          <Modal.Body>
-            <div className="container">
-            <div>{this.state.recipe.description}</div>
-
+          <Modal.Body className="modal-body">
+            <div  className="modal-title">{this.state.recipe.name}</div>
+            <div className="modal-description">{this.state.recipe.description}<br>
+            </br>______________</div>
               <div className="row">
-                <div className="col"></div>
+                <div className="col" >{this.state.ingredients.name}</div>
                 <div className="col">{this.state.recipe.instruction}</div>
               </div>
-            </div>
           </Modal.Body>
-          <Modal.Footer>
-
-          </Modal.Footer>
+          <Modal.Footer></Modal.Footer>
         </Modal>
       </div>
     );
