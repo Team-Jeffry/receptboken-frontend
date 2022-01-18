@@ -175,6 +175,7 @@ class SaveRecipe extends React.Component {
     return (
       <div>
         <div className="save-recipe">
+          <div className="blurredBackground"></div>
           <div className="container">
             <div className="title-smaller">
               <h1>Spara ett nytt recept</h1>
