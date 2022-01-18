@@ -14,7 +14,9 @@ class SaveRecipe extends React.Component {
     super(props);
 
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
+    this.handleAdditionCategory = this.handleAdditionCategory.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.submit = this.submit.bind(this);
@@ -40,10 +42,6 @@ class SaveRecipe extends React.Component {
     };
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-  }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -59,6 +57,7 @@ class SaveRecipe extends React.Component {
 
   async submit() {
     const ingredients = [];
+    const categories = [];
 
     this.state.tags.forEach((element) => {
       ingredients.push({
@@ -67,20 +66,39 @@ class SaveRecipe extends React.Component {
       });
     });
 
+    this.state.categoryTags.forEach((element) => {
+      categories.push(element.text);
+    });
+
     const requestBody = {
       name: this.state.saveRecipeJson.name,
       description: this.state.saveRecipeJson.description,
       instruction: this.state.saveRecipeJson.instruction,
       time: this.state.saveRecipeJson.time,
       ingredients: ingredients,
-      categoryNames: ["Frukt"],
+      categoryNames: categories,
     };
-
-    console.log(requestBody);
 
     await Axios.post("http://localhost:8080/v1/recipe/save", requestBody)
       .then((response) => {
-        console.log(response);
+        this.setState({
+          suggestions: [],
+          tags: [],
+          categorySuggestions: [],
+          categoryTags: [],
+          saveRecipeJson: {
+            ...this.state.saveRecipeJson,
+            name: "",
+            description: "",
+            instruction: "",
+            time: 0,
+            ingredients: {
+              name: "",
+              description: "",
+            },
+            categoryNames: [],
+          },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -161,7 +179,7 @@ class SaveRecipe extends React.Component {
             <div className="title-smaller">
               <h1>Spara ett nytt recept</h1>
             </div>
-            <form onSubmit={this.onSubmit}>
+            <form>
               <input
                 onChange={(e) => this.handleInputChange(e)}
                 type="text"
