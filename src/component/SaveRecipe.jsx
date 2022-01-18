@@ -30,7 +30,7 @@ class SaveRecipe extends React.Component {
         name: "",
         description: "",
         instruction: "",
-        time: 0,
+        time: "",
         ingredients: [
           {
             name: "",
@@ -91,7 +91,7 @@ class SaveRecipe extends React.Component {
             name: "",
             description: "",
             instruction: "",
-            time: 0,
+            time: "",
             ingredients: {
               name: "",
               description: "",
