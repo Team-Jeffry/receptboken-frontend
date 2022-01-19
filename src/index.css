@@ -9,13 +9,14 @@ body {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-        sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+/*body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}*/
 
 .title {
     padding-top: 300px;
@@ -36,17 +37,17 @@ code {
 }
 
 button {
-    display: inline-block;
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 15px;
-    font-family: inherit;
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px !important;
+  margin: 10px !important;
+  border-radius: 5px !important;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
 }
 
 .container {
@@ -161,4 +162,31 @@ span {
 
 mark {
     background-color: lightgray;
+}
+
+.modal-title {
+  padding-bottom: 17px;
+  text-align: center !important;
+  font-weight: bold !important;
+  font-size: 20px;
+}
+
+.modal-description {
+  padding-bottom: 30px !important;
+  font-style: italic;
+}
+
+.modal-header, .modal-footer {
+  padding-bottom: 0px !important;
+  justify-content: center;
+  border: none !important;
+}
+
+.modal-body {
+  text-align: center;
+  padding-bottom: 50px !important;
+}
+
+.close-button {
+  justify-content: right !important;
 }

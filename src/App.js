@@ -1,21 +1,21 @@
-import React from "react";
-import { Link, animateScroll as scroll } from "react-scroll";
-import Suggest from "./component/Suggest";
-import Home from "./component/Home";
-import SaveRecipe from "./component/SaveRecipe";
+import ShowRecipe from './components/ShowRecipe';
 
 function App() {
-    window.onload = () => {
-        window.scrollTo(0, 0);
-    };
-
-    return (
-        <div>
-            <Home id="home" />
-            <Suggest id="suggest" />
-            <SaveRecipe id="save-recipe" />
-        </div>
-    );
+  return (
+    <>
+    <div className="background"> 
+    
+         <h1 className="title">Receptboken</h1>   
+        <div className="container">
+        <button>Sök recept</button>
+        <button>Laga med det jag har</button>
+        <button>Skapa nytt recept</button>
+        
+    </div>
+    <ShowRecipe />
+</div>
+</>
+  );
 }
 
 export default App;
