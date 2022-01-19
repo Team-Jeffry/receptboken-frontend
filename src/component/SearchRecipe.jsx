@@ -1,6 +1,7 @@
 import React from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import Axios from "axios";
+import SuggestionList from "./SuggestionList";
 
 const keyCodes = {
   comma: 188,
@@ -9,7 +10,7 @@ const keyCodes = {
 
 const delimiters = [...keyCodes.enter, keyCodes.comma];
 
-class SaveRecipe extends React.Component {
+class SearchRecipe extends React.Component {
   constructor(props) {
     super(props);
 
@@ -22,6 +23,7 @@ class SaveRecipe extends React.Component {
     this.state = {
       categoryTags: [],
       categorySuggestions: [],
+      suggestionResults: [],
       saveRecipeJson: {
         name: "",
         time: "",
@@ -58,7 +60,8 @@ class SaveRecipe extends React.Component {
 
     await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
       .then((response) => {
-        console.log(response);
+        this.setState({ suggestionResults: response.data });
+        console.log(this.state.suggestionResults);
       })
       .catch((error) => {
         console.log(error);
@@ -104,6 +107,7 @@ class SaveRecipe extends React.Component {
   render() {
     const categoryTags = this.state.categoryTags;
     const categorySuggestions = this.state.categorySuggestions;
+    const suggestionResults = this.state.suggestionResults;
 
     return (
       <div>
@@ -146,10 +150,13 @@ class SaveRecipe extends React.Component {
               Sök
             </button>
           </div>
+          {this.state.categoryTags.length !== 0 && (
+            <SuggestionList data={suggestionResults} />
+          )}
         </div>
       </div>
     );
   }
 }
 
-export default SaveRecipe;
+export default SearchRecipe;
