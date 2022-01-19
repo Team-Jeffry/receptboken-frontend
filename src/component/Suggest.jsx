@@ -74,12 +74,12 @@ export default class Suggest extends Component {
     render() {
         const { tags, suggestions, suggestionResults } = this.state;
         return (
-            <div>
-                <div className="suggest">
-                    <div className="container">
-                        <div className="title-smaller">
-                            <h1>Laga med det jag har</h1>
-                        </div>
+            <div className="suggest">
+                <div className="title-smaller">
+                    <h1>Laga med det jag har</h1>
+                </div>
+                <div className="suggest-inner">
+                    <div className="tags-field">
                         <ReactTags
                             inputFieldPosition="top"
                             allowDragDrop={true}
@@ -92,16 +92,13 @@ export default class Suggest extends Component {
                             handleDrag={this.handleDrag}
                             delimiters={delimiters}
                         />
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "2vh", marginTop: "2vh" }}>
                         <button style={{ margin: "20px" }} onClick={this.submit}>
                             Föreslå
                         </button>
-                        {this.state.suggestionResults.length !== 0 && (
-                            <div>
-                                <hr style={{ color: "lightgrey" }} />
-                            </div>
-                        )}
-                        <SuggestionList data={suggestionResults} />
                     </div>
+                    <SuggestionList data={suggestionResults} />
                 </div>
             </div>
         );

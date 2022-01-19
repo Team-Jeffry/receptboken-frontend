@@ -81,12 +81,10 @@ button {
     background-image: url("images/background.jpeg");
 }
 
-.suggest {    
-    padding: 10vh auto;
+.suggest {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
     position: relative;
-    padding-top: 30vh;
-    display: flex;
-    justify-content: center;
     background-size: cover;
     background-position: center;
     background-color: #fff;
@@ -137,16 +135,30 @@ div {
     color: #000;
 }
 
+.ReactTags__tagInput {    
+    display: flex;
+    justify-content: center;
+    flex-flow: wrap;
+}
+
 .ReactTags__tagInputField {
     font-size: large;
     margin-bottom: 20px;
     padding: 8px;
     border-radius: 6px;
-    border: solid darkgray 1px;
+    border: solid darkgray 1px;    
 }
 
 .ReactTags__tagInputField:focus {
     outline: none;
+}
+
+.ReactTags__suggestions {
+    width: 100%;
+}
+
+span:hover > mark {
+    background-color: darkgray;
 }
 
 Input {
@@ -164,7 +176,18 @@ Input {
     padding: 6px 10px;
     padding-bottom: 8px;
     border-radius: 6px;
-    font-size: small;
+    font-size: small;    
+}
+
+.ReactTags__suggestions li {
+    display:inline-flex;
+}
+
+.ReactTags__suggestions ul {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 2px;
 }
 
 .ReactTags__suggestions mark {
@@ -172,7 +195,7 @@ Input {
 }
 
 .ReactTags__suggestions span:hover,
-span.mark {
+span .mark {
     background-color: darkgray;
 }
 
@@ -207,4 +230,21 @@ li {
 
 .suggestion-list {
     padding-top: 2vh;
+}
+
+input.ReactTags__tagInputField {
+    width: 100% !;
+}
+
+.suggest-inner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+}
+
+.tags-field:first-child {
+    display: flex;
+    justify-content: center;    
+    width: 100%;
 }
