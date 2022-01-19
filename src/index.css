@@ -1,65 +1,61 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .title {
-  padding-top: 300px;
-  margin-top: 0;
-  text-align: center;
-  font-size: 50px;
+    padding-top: 300px;
+    margin-top: 0;
+    text-align: center;
+    font-size: 50px;
 }
 
 .title-smaller {
-  padding-bottom: 30px;
-  margin-top: 0;
-  text-align: center;
-  font-size: 20px;
+    padding-bottom: 30px;
+    margin-top: 0;
+    text-align: center;
+    font-size: 20px;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 button {
-  display: inline-block;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 15px;
-  font-family: inherit;
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: inherit;
 }
 
 .container {
-  margin: 0;
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /*.backdrop {
@@ -75,121 +71,140 @@ button {
 }*/
 
 .home {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-image: url("images/background.jpeg");
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-image: url("images/background.jpeg");
 }
 
-.suggest {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60vh;
-  background-size: cover;
-  background-position: center;
-  background-color: #fff;
+.suggest {    
+    padding: 10vh auto;
+    position: relative;
+    padding-top: 30vh;
+    display: flex;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-color: #fff;
 }
 
 .save-recipe {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-image: url("images/background.jpeg");
-  margin-bottom: 50vh;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-image: url("images/background.jpeg");
+    margin-bottom: 50vh;
 }
 
 .save-recipe > .blurredBackground {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-size: cover;
-  background-position: center;
-  background-image: url("images/background.jpeg");
-  filter: blur(10px);
-  -webkit-filter: blur(10px);
-  -moz-filter: blur(10px);
-  -o-filter: blur(10px);
-  -ms-filter: blur(10px);
-  transform: scale(1.2);
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-image: url("images/background.jpeg");
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+    transform: scale(1.2);
 }
 
 div {
-  overflow: hidden;
-}
-
-.blurred-background {
-    filter: blur(8px)
+    overflow: hidden;
 }
 
 .h1-padded {
-  padding-bottom: 30px;
+    padding-bottom: 30px;
 }
 
 .ReactTags__remove {
-  padding: 4px 0px;
-  margin-left: 4px;
-  margin-right: 0px;
-  background-color: lightgray;
-  color: #000;
+    padding: 4px 0px;
+    margin-left: 4px;
+    margin-right: 0px;
+    background-color: lightgray;
+    color: #000;
 }
 
 .ReactTags__tagInputField {
-  font-size: large;
-  margin-bottom: 20px;
-  padding: 8px;
-  border-radius: 6px;
-  border: solid darkgray 1px;
+    font-size: large;
+    margin-bottom: 20px;
+    padding: 8px;
+    border-radius: 6px;
+    border: solid darkgray 1px;
 }
 
 .ReactTags__tagInputField:focus {
-  outline: none;
+    outline: none;
 }
 
 Input {
-  font-size: large;
-  margin-bottom: 20px;
-  padding: 8px;
-  border-radius: 6px;
-  border: solid darkgray 1px;
+    font-size: large;
+    margin-bottom: 20px;
+    padding: 8px;
+    border-radius: 6px;
+    border: solid darkgray 1px;
 }
 
-.ReactTags__activeSuggestion span,
-.ReactTags__activeSuggestion mark {
+.ReactTags__suggestions span {
+    color: black;
+    background-color: lightgray;
+    margin: 4px 4px;
+    padding: 6px 10px;
+    padding-bottom: 8px;
+    border-radius: 6px;
+    font-size: small;
+}
+
+.ReactTags__suggestions mark {
     background-color: lightgray;
 }
 
-.ReactTags__activeSuggestion span:hover > mark,
-.ReactTags__activeSuggestion span:hover {
+.ReactTags__suggestions span:hover,
+span.mark {
     background-color: darkgray;
 }
 
-.ReactTags__tag,
+.ReactTags__tag {
+    color: black;
+    background-color: lightgray;
+    margin: 4px 4px;
+    padding: 6px 10px;
+    padding-bottom: 8px;
+    border-radius: 6px;
+    font-size: small;
+}
+
 span {
-  color: black;
-  background-color: lightgray;
-  margin: 4px 4px;
-  padding: 6px 10px;
-  padding-bottom: 8px;
-  border-radius: 6px;
-  font-size: small;
+    text-align: center;
 }
 
 mark {
-  background-color: lightgray;
+    background-color: lightgray;
 }
 
 li {
     list-style: none;
+}
+
+.suggestion-list > .container {
+    position: relative;
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+}
+
+.suggestion-list {
+    padding-top: 2vh;
 }

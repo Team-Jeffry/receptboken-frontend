@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import Axios from "axios";
+import SuggestionList from "./SuggestionList";
 
 const keyCodes = {
     comma: 188,
@@ -16,6 +17,7 @@ export default class Suggest extends Component {
         this.state = {
             tags: [],
             suggestions: [],
+            suggestionResults: [],
         };
 
         this.handleDelete = this.handleDelete.bind(this);
@@ -64,13 +66,13 @@ export default class Suggest extends Component {
 
         await Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
             .then((response) => {
-                console.log(response);
+                this.setState({ suggestionResults: response.data });
             })
             .catch((error) => console.log(error));
     }
 
     render() {
-        const { tags, suggestions } = this.state;
+        const { tags, suggestions, suggestionResults } = this.state;
         return (
             <div>
                 <div className="suggest">
@@ -78,7 +80,7 @@ export default class Suggest extends Component {
                         <div className="title-smaller">
                             <h1>Laga med det jag har</h1>
                         </div>
-                        <ReactTags                            
+                        <ReactTags
                             inputFieldPosition="top"
                             allowDragDrop={true}
                             allowUnique={true}
@@ -93,6 +95,12 @@ export default class Suggest extends Component {
                         <button style={{ margin: "20px" }} onClick={this.submit}>
                             Föreslå
                         </button>
+                        {this.state.suggestionResults.length !== 0 && (
+                            <div>
+                                <hr style={{ color: "lightgrey" }} />
+                            </div>
+                        )}
+                        <SuggestionList data={suggestionResults} />
                     </div>
                 </div>
             </div>
