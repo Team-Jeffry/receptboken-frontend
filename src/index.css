@@ -248,3 +248,7 @@ input.ReactTags__tagInputField {
     justify-content: center;    
     width: 100%;
 }
+
+span.MuiTypography-root {
+    font-size: 15px;
+}

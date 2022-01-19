@@ -21,7 +21,7 @@ export default class SuggestionList extends Component {
                                 <List>
                                     {this.props.data.map((element) => {
                                         return (
-                                            <ListItem disablePadding>
+                                            <ListItem disablePadding style={{ backgroundColor: "whitesmoke", borderRadius: "8px", marginBottom: "6px" }}>
                                                 <ListItemButton>
                                                     <ListItemText primary={element.name} />
                                                 </ListItemButton>
