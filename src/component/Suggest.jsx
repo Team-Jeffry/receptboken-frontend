@@ -26,13 +26,18 @@ export default class Suggest extends Component {
         this.submit = this.submit.bind(this);
     }
 
-    async componentDidMount() {
-        await Axios.get("http://localhost:8080/v1/ingredient/all").then((response) => {
+    componentDidMount() {
+        Axios.get("http://localhost:8080/v1/ingredient/all").then((response) => {
             const ingredients = response.data.map((element) => {
                 return { id: element.name, text: element.name };
             });
             this.setState({ suggestions: ingredients });
         });
+        this.setState({ componentIsLoaded: true });
+    }
+
+    componentDidUpdate() {
+        this.submit();
     }
 
     handleDelete(i) {
@@ -40,10 +45,12 @@ export default class Suggest extends Component {
         this.setState({
             tags: tags.filter((tag, index) => index !== i),
         });
+        this.submit();
     }
 
-    handleAddition(tag) {
+    async handleAddition(tag) {
         this.setState((state) => ({ tags: [...state.tags, tag] }));
+        this.submit();
     }
 
     handleDrag(tag, currPos, newPos) {
@@ -57,19 +64,19 @@ export default class Suggest extends Component {
         this.setState({ tags: newTags });
     }
 
-    async submit() {
+    submit = () => {
         const ingredients = [];
 
         this.state.tags.forEach((element) => {
             ingredients.push({ name: element.text });
         });
 
-        await Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
+        Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
             .then((response) => {
                 this.setState({ suggestionResults: response.data });
             })
             .catch((error) => console.log(error));
-    }
+    };
 
     render() {
         const { tags, suggestions, suggestionResults } = this.state;
@@ -91,14 +98,15 @@ export default class Suggest extends Component {
                             handleAddition={this.handleAddition}
                             handleDrag={this.handleDrag}
                             delimiters={delimiters}
+                            autocomplete
                         />
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "2vh", marginTop: "2vh" }}>
+                    {/* <div style={{ display: "flex", justifyContent: "center", marginBottom: "2vh", marginTop: "2vh" }}>
                         <button style={{ margin: "20px" }} onClick={this.submit}>
                             Föreslå
                         </button>
-                    </div>
-                    {this.state.tags.length !== 0 && <SuggestionList data={suggestionResults} />}
+                    </div> */}
+                    <SuggestionList data={suggestionResults} />
                 </div>
             </div>
         );

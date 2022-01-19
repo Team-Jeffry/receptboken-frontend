@@ -19,9 +19,9 @@ export default class SuggestionList extends Component {
                         <div style={listStyle}>
                             <Box sx={{ width: "100%", maxWidth: 360 }}>
                                 <List>
-                                    {this.props.data.map((element) => {
+                                    {this.props.data.map((element) => {                                        
                                         return (
-                                            <ListItem disablePadding style={{ backgroundColor: "whitesmoke", borderRadius: "8px", marginBottom: "6px" }}>
+                                            <ListItem key={element.name} disablePadding style={{ backgroundColor: "whitesmoke", borderRadius: "8px", marginBottom: "6px" }}>
                                                 <ListItemButton>
                                                     <ListItemText primary={element.name} />
                                                 </ListItemButton>
