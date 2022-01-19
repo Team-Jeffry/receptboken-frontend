@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-scroll";
+import ShowRecipe from ".//ShowRecipe"
 
 export default class Home extends Component {
   render() {
@@ -38,6 +39,7 @@ export default class Home extends Component {
             <button>Skapa nytt recept</button>
           </Link>
         </div>
+        <ShowRecipe />
       </div>
     );
   }
