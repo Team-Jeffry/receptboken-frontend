@@ -16,6 +16,7 @@ export default class Suggest extends Component {
 
         this.state = {
             tags: [],
+            prevTags: [],
             suggestions: [],
             suggestionResults: [],
         };
@@ -33,27 +34,28 @@ export default class Suggest extends Component {
             });
             this.setState({ suggestions: ingredients });
         });
-        this.setState({ componentIsLoaded: true });
     }
 
-    componentDidUpdate() {
-        this.submit();
+    async componentDidUpdate() {
+        if (this.state.prevTags.length !== this.state.tags.length) {
+            console.log('calling')
+            this.setState({ prevTags: this.state.tags });
+            await this.submit();
+        }
     }
 
-    handleDelete(i) {
+    handleDelete = (i) => {
         const { tags } = this.state;
         this.setState({
             tags: tags.filter((tag, index) => index !== i),
         });
-        this.submit();
-    }
+    };
 
-    async handleAddition(tag) {
+    handleAddition = (tag) => {
         this.setState((state) => ({ tags: [...state.tags, tag] }));
-        this.submit();
-    }
+    };
 
-    handleDrag(tag, currPos, newPos) {
+    handleDrag = (tag, currPos, newPos) => {
         const tags = [...this.state.tags];
         const newTags = tags.slice();
 
@@ -62,24 +64,25 @@ export default class Suggest extends Component {
 
         // re-render
         this.setState({ tags: newTags });
-    }
+    };
 
-    submit = () => {
+    async submit() {
         const ingredients = [];
 
         this.state.tags.forEach((element) => {
             ingredients.push({ name: element.text });
         });
 
-        Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
+        await Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
             .then((response) => {
                 this.setState({ suggestionResults: response.data });
             })
             .catch((error) => console.log(error));
-    };
+    }
 
     render() {
         const { tags, suggestions, suggestionResults } = this.state;
+
         return (
             <div className="suggest">
                 <div className="title-smaller">
