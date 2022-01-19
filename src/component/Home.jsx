@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
+import ShowRecipe from './/ShowRecipe';
 
 export default class Home extends Component {
     render() {
