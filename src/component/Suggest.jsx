@@ -38,7 +38,6 @@ export default class Suggest extends Component {
 
     async componentDidUpdate() {
         if (this.state.prevTags.length !== this.state.tags.length) {
-            console.log('calling')
             this.setState({ prevTags: this.state.tags });
             await this.submit();
         }
