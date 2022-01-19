@@ -8,16 +8,9 @@ class ShowRecipe extends Component {
     super();
     this.state = {
       showHide: false,
-      recipe: {
-        /* name: "bla",
-      description: "",
-      instruction: "",
-      time: "",
+      recipe: {},
       ingredients: [],
-      categories: [],*/
-      },
-      ingredients: [],
-      categories: []
+      categories: [],
     };
   }
 
@@ -31,12 +24,16 @@ class ShowRecipe extends Component {
     await axios
       .post("http://localhost:8080/v1/recipe/get", postData)
       .then((res) => {
-        console.log(res);
+        this.setState({
+          ...this.state,
+          recipe: res.data[0],
+        });
 
-        this.res = res.data;
-        this.state.recipe = this.res[0];
-        this.state.ingredients = this.res[0].ingredients;
-        this.state.categories = this.res[0].categories;
+        this.setState({
+          ...this.state,
+          ingredients: this.getIngredients(),
+          categories: this.getCategories()
+        });
       });
   };
 
@@ -45,22 +42,29 @@ class ShowRecipe extends Component {
   }
 
   getIngredients() {
-    /* for (let i = 0; i < this.state.recipe.ingredients.length; i++) { 
-      console.log(this.state.recipe.ingredients[i].name);
-    }*/
+    let array = [];
+    for (let i = 0; i < this.state.recipe.ingredients.length; i++) {
+      array.push(this.state.recipe.ingredients[i].name);
+    }
 
-    /*this.state.recipe.ingredients.forEach(element => {
-      console.log(element)
-    });*/
-    //const allIngredients = this.state.recipe
-    //console.log(this.state.ingredients);
+    return array;
+  }
 
+  getCategories() {
+    let array = [];
+    for (let i = 0; i < this.state.recipe.categories.length; i++) {
+      array.push(this.state.recipe.categories[i].name);
+    }
 
+    return array;
+  }
 
+  printValues(values) {
     return (
       <ul>
-        <li>hej</li>
-        <li>hej</li>
+        {values.map((elementInValues) => (
+          <div key={Math.floor(Math.random() * 1000)}>{elementInValues}</div>
+        ))}
       </ul>
     );
   }
@@ -73,18 +77,33 @@ class ShowRecipe extends Component {
         </Button>
 
         <Modal show={this.state.showHide}>
-          <Modal.Header className="close-button" closeButton onClick={() => this.handleModalShowHide()}>
-          </Modal.Header>
+          <Modal.Header
+            className="close-button"
+            closeButton
+            onClick={() => this.handleModalShowHide()}
+          ></Modal.Header>
           <Modal.Body className="modal-body">
-            <div  className="modal-title">{this.state.recipe.name}</div>
-            <div className="modal-description">{this.state.recipe.description}<br>
-            </br>______________</div>
-              <div className="row">
-                <div className="col" >{this.state.ingredients.name}</div>
-                <div className="col">{this.state.recipe.instruction}</div>
-              </div>
+            <div className="modal-title">{this.state.recipe.name}</div>
+            <div className="modal-description">
+              {this.state.recipe.description}
+              <br></br>______________
+            </div>
+            <div className="row">
+              <div className="col">
+                <p>Ingredienser</p>
+                {this.printValues(this.state.ingredients)}
+                </div>
+              <div className="col">
+                <p>Gör så här:</p>
+                {this.state.recipe.instruction}</div>
+            </div>
+            <div>
+            <p >Kategorier</p>
+          <div>{this.printValues(this.state.categories)}</div>
+          </div>
           </Modal.Body>
-          <Modal.Footer></Modal.Footer>
+          <Modal.Footer>
+          </Modal.Footer>
         </Modal>
       </div>
     );
