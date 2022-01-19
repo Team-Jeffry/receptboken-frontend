@@ -90,15 +90,15 @@ class ShowRecipe extends Component {
             </div>
             <div className="row">
               <div className="col">
-                <p>Ingredienser</p>
+                <p style={{fontWeight: "bold"}}>Ingredienser</p>
                 {this.printValues(this.state.ingredients)}
                 </div>
               <div className="col">
-                <p>Gör så här:</p>
+                <p style={{fontWeight: "bold"}}>Gör så här:</p>
                 {this.state.recipe.instruction}</div>
             </div>
             <div>
-            <p >Kategorier</p>
+            <p style={{fontWeight: "bold"}}>Kategorier</p>
           <div>{this.printValues(this.state.categories)}</div>
           </div>
           </Modal.Body>
