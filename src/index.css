@@ -105,7 +105,34 @@ button {
   background-size: cover;
   background-position: center;
   background-image: url("images/background.jpeg");
-  margin-bottom: 50vh;
+}
+
+.search-recipe {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-image: url("images/background.jpeg");
+}
+
+.search-recipe > .blurredBackground {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-image: url("images/background.jpeg");
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+  transform: scale(1.2);
 }
 
 .save-recipe > .blurredBackground {
@@ -130,7 +157,7 @@ div {
 }
 
 .blurred-background {
-    filter: blur(8px)
+  filter: blur(8px);
 }
 
 .h1-padded {
@@ -167,12 +194,12 @@ Input {
 
 .ReactTags__activeSuggestion span,
 .ReactTags__activeSuggestion mark {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
 .ReactTags__activeSuggestion span:hover > mark,
 .ReactTags__activeSuggestion span:hover {
-    background-color: darkgray;
+  background-color: darkgray;
 }
 
 .ReactTags__tag,
@@ -191,5 +218,5 @@ mark {
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
