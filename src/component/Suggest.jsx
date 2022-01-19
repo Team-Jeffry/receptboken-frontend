@@ -98,7 +98,7 @@ export default class Suggest extends Component {
                             Föreslå
                         </button>
                     </div>
-                    <SuggestionList data={suggestionResults} />
+                    {this.state.tags.length !== 0 && <SuggestionList data={suggestionResults} />}
                 </div>
             </div>
         );
