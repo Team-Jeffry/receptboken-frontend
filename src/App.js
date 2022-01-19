@@ -1,5 +1,4 @@
 import React from "react";
-import { Link, animateScroll as scroll } from "react-scroll";
 import SearchRecipe from "./component/SearchRecipe";
 import Suggest from "./component/Suggest";
 import Home from "./component/Home";
