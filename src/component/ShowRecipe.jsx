@@ -61,11 +61,11 @@ class ShowRecipe extends Component {
 
   printValues(values) {
     return (
-      <ul>
+      <div>
         {values.map((elementInValues) => (
           <div key={Math.floor(Math.random() * 1000)}>{elementInValues}</div>
         ))}
-      </ul>
+      </div>
     );
   }
 
@@ -98,7 +98,7 @@ class ShowRecipe extends Component {
                 {this.state.recipe.instruction}</div>
             </div>
             <div>
-            <p style={{fontWeight: "bold"}}>Kategorier</p>
+            <p style={{fontWeight: "bold", paddingTop: "70px"}}>Kategorier</p>
           <div>{this.printValues(this.state.categories)}</div>
           </div>
           </Modal.Body>
