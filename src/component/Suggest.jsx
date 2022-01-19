@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import Axios from "axios";
+import SuggestionList from "./SuggestionList";
 
 const keyCodes = {
     comma: 188,
@@ -16,6 +17,7 @@ export default class Suggest extends Component {
         this.state = {
             tags: [],
             suggestions: [],
+            suggestionResults: [],
         };
 
         this.handleDelete = this.handleDelete.bind(this);
@@ -64,21 +66,21 @@ export default class Suggest extends Component {
 
         await Axios.post("http://localhost:8080/v1/recipe/suggest", ingredients)
             .then((response) => {
-                console.log(response);
+                this.setState({ suggestionResults: response.data });
             })
             .catch((error) => console.log(error));
     }
 
     render() {
-        const { tags, suggestions } = this.state;
+        const { tags, suggestions, suggestionResults } = this.state;
         return (
-            <div>
-                <div className="suggest">
-                    <div className="container">
-                        <div className="title-smaller">
-                            <h1>Laga med det jag har</h1>
-                        </div>
-                        <ReactTags                            
+            <div className="suggest">
+                <div className="title-smaller">
+                    <h1>Laga med det jag har</h1>
+                </div>
+                <div className="suggest-inner">
+                    <div className="tags-field">
+                        <ReactTags
                             inputFieldPosition="top"
                             allowDragDrop={true}
                             allowUnique={true}
@@ -90,10 +92,13 @@ export default class Suggest extends Component {
                             handleDrag={this.handleDrag}
                             delimiters={delimiters}
                         />
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "2vh", marginTop: "2vh" }}>
                         <button style={{ margin: "20px" }} onClick={this.submit}>
                             Föreslå
                         </button>
                     </div>
+                    {this.state.tags.length !== 0 && <SuggestionList data={suggestionResults} />}
                 </div>
             </div>
         );

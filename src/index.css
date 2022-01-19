@@ -83,34 +83,59 @@ button {
 }
 
 .suggest {
+    padding-top: 10vh;
+    padding-bottom: 10vh;
     position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60vh;
     background-size: cover;
     background-position: center;
     background-color: #fff;
 }
 
 .save-recipe {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50vh;
-    background-size: cover;
-    background-position: center;
-    background-image: url("images/background.jpeg");
-    margin-bottom: 50vh;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-image: url("images/background.jpeg");
 }
 
-.blurredBackground {
+.search-recipe {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-image: url("images/background.jpeg");
+}
+
+.search-recipe > .blurredBackground {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-image: url("images/background.jpeg");
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+  transform: scale(1.2);
+}
+
+.save-recipe > .blurredBackground {
     position: relative;
     top: 0;
     left: 0;
     width: 100%;
-    height: 50vh;
+    height: 100vh;
     background-size: cover;
     background-position: center;
     background-image: url("images/background.jpeg");
@@ -119,7 +144,7 @@ button {
     -moz-filter: blur(10px);
     -o-filter: blur(10px);
     -ms-filter: blur(10px);
-    transform: scale(1.1);
+    transform: scale(1.2);
 }
 
 div {
@@ -138,7 +163,33 @@ div {
     color: #000;
 }
 
+.ReactTags__tagInput {    
+    display: flex;
+    justify-content: center;
+    flex-flow: wrap;
+}
+
 .ReactTags__tagInputField {
+    font-size: large;
+    margin-bottom: 20px;
+    padding: 8px;
+    border-radius: 6px;
+    border: solid darkgray 1px;    
+}
+
+.ReactTags__tagInputField:focus {
+    outline: none;
+}
+
+.ReactTags__suggestions {
+    width: 100%;
+}
+
+span:hover > mark {
+    background-color: darkgray;
+}
+
+Input {
     font-size: large;
     margin-bottom: 20px;
     padding: 8px;
@@ -146,11 +197,37 @@ div {
     border: solid darkgray 1px;
 }
 
-.ReactTags__tagInputField:focus {
-    outline: none;
+.ReactTags__suggestions span {
+    color: black;
+    background-color: lightgray;
+    margin: 4px 4px;
+    padding: 6px 10px;
+    padding-bottom: 8px;
+    border-radius: 6px;
+    font-size: small;    
 }
 
-span {
+.ReactTags__suggestions li {
+    display:inline-flex;
+}
+
+.ReactTags__suggestions ul {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 2px;
+}
+
+.ReactTags__suggestions mark {
+    background-color: lightgray;
+}
+
+.ReactTags__suggestions span:hover,
+span .mark {
+    background-color: darkgray;
+}
+
+.ReactTags__tag {
     color: black;
     background-color: lightgray;
     margin: 4px 4px;
@@ -158,6 +235,10 @@ span {
     padding-bottom: 8px;
     border-radius: 6px;
     font-size: small;
+}
+
+span {
+    text-align: center;
 }
 
 mark {
@@ -189,4 +270,39 @@ mark {
 
 .close-button {
   justify-content: right !important;
+}
+li {
+  list-style: none;
+}
+
+.suggestion-list > .container {
+    position: relative;
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+}
+
+.suggestion-list {
+    padding-top: 2vh;
+}
+
+input.ReactTags__tagInputField {
+    width: 100% !;
+}
+
+.suggest-inner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 600px;
+}
+
+.tags-field:first-child {
+    display: flex;
+    justify-content: center;    
+    width: 100%;
+}
+
+span.MuiTypography-root {
+    font-size: 15px;
 }
