@@ -30,7 +30,7 @@ class ShowRecipe extends Component {
           Launch demo modal
         </Button> */}
 
-                <Modal show={this.props.showHide} style={{ paddingTop: "30%" }}>
+                <Modal show={this.props.showHide} style={{ paddingTop: "7vh" }}>
                     <Modal.Header
                         className="close-button"
                         closeButton
