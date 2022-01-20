@@ -4,6 +4,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import ShowRecipe from "./ShowRecipe";
 
 const listStyle = {
     display: "flex",
@@ -11,7 +12,19 @@ const listStyle = {
 };
 
 export default class SuggestionList extends Component {
-    render() {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            modalShowHide: false,
+        };
+    }
+
+    handleClick = () => {
+        this.setState({ modalShowHide: !this.state.modalShowHide });
+    };
+
+    render() {          
         return (
             <div>
                 {this.props.data.length !== 0 && (
@@ -19,10 +32,15 @@ export default class SuggestionList extends Component {
                         <div style={listStyle}>
                             <Box sx={{ width: "100%", maxWidth: 360 }}>
                                 <List>
-                                    {this.props.data.map((element) => {                                        
+                                    {this.props.data.map((element) => {
                                         return (
-                                            <ListItem key={element.name} disablePadding style={{ backgroundColor: "whitesmoke", borderRadius: "8px", marginBottom: "6px" }}>
-                                                <ListItemButton>
+                                            <ListItem
+                                                key={element.name}
+                                                disablePadding
+                                                style={{ backgroundColor: "whitesmoke", borderRadius: "8px", marginBottom: "6px" }}
+                                            >
+                                                <ListItemButton onClick={() => this.handleClick()}>
+                                                    <ShowRecipe showHide={this.state.modalShowHide} recipe={element}/>
                                                     <ListItemText primary={element.name} />
                                                 </ListItemButton>
                                             </ListItem>
