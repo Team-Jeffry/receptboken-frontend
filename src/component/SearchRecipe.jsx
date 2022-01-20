@@ -61,7 +61,6 @@ class SearchRecipe extends React.Component {
         await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
             .then((response) => {
                 this.setState({ suggestionResults: response.data });
-                console.log(this.state.suggestionResults);
             })
             .catch((error) => {
                 console.log(error);
@@ -107,6 +106,8 @@ class SearchRecipe extends React.Component {
         const categorySuggestions = this.state.categorySuggestions;
         const suggestionResults = this.state.suggestionResults;
 
+        console.log(suggestionResults);
+
         return (
             <div>
                 <div className="search-recipe">
@@ -142,13 +143,14 @@ class SearchRecipe extends React.Component {
                             handleDelete={this.handleDeleteCategory}
                             handleAddition={this.handleAdditionCategory}
                             delimiters={delimiters}
+                            autocomplete
                         />
                         <br />
                         <button style={{ margin: "20px" }} onClick={this.submit}>
                             Sök
                         </button>
+                        <SuggestionList data={suggestionResults} />
                     </div>
-                    {this.state.categoryTags.length !== 0 && <SuggestionList data={suggestionResults} />}
                 </div>
             </div>
         );
