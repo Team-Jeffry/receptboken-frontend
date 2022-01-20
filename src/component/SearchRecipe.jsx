@@ -61,6 +61,7 @@ class SearchRecipe extends React.Component {
         await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
             .then((response) => {
                 this.setState({ suggestionResults: response.data });
+                console.log(this.state.suggestionResults);
             })
             .catch((error) => {
                 console.log(error);
@@ -77,6 +78,28 @@ class SearchRecipe extends React.Component {
             });
             this.setState({ categorySuggestions: categories });
         });
+    }
+
+    async submit() {
+        const categories = [];
+
+        this.state.categoryTags.forEach((element) => {
+            categories.push(element.text);
+        });
+
+        const requestBody = {
+            recipeName: this.state.saveRecipeJson.name,
+            categoryNames: categories,
+            time: this.state.saveRecipeJson.time,
+        };
+
+        await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
+            .then((response) => {
+                this.setState({ suggestionResults: response.data });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     handleDeleteCategory(i) {
@@ -105,8 +128,6 @@ class SearchRecipe extends React.Component {
         const categoryTags = this.state.categoryTags;
         const categorySuggestions = this.state.categorySuggestions;
         const suggestionResults = this.state.suggestionResults;
-
-        console.log(suggestionResults);
 
         return (
             <div>
