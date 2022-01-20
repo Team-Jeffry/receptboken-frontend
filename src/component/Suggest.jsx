@@ -16,6 +16,7 @@ export default class Suggest extends Component {
 
         this.state = {
             tags: [],
+            prevTags: [],
             suggestions: [],
             suggestionResults: [],
         };
@@ -26,8 +27,8 @@ export default class Suggest extends Component {
         this.submit = this.submit.bind(this);
     }
 
-    async componentDidMount() {
-        await Axios.get("http://localhost:8080/v1/ingredient/all").then((response) => {
+    componentDidMount() {
+        Axios.get("http://localhost:8080/v1/ingredient/all").then((response) => {
             const ingredients = response.data.map((element) => {
                 return { id: element.name, text: element.name };
             });
@@ -35,18 +36,25 @@ export default class Suggest extends Component {
         });
     }
 
-    handleDelete(i) {
+    async componentDidUpdate() {
+        if (this.state.prevTags.length !== this.state.tags.length) {
+            this.setState({ prevTags: this.state.tags });
+            await this.submit();
+        }
+    }
+
+    handleDelete = (i) => {
         const { tags } = this.state;
         this.setState({
             tags: tags.filter((tag, index) => index !== i),
         });
-    }
+    };
 
-    handleAddition(tag) {
+    handleAddition = (tag) => {
         this.setState((state) => ({ tags: [...state.tags, tag] }));
-    }
+    };
 
-    handleDrag(tag, currPos, newPos) {
+    handleDrag = (tag, currPos, newPos) => {
         const tags = [...this.state.tags];
         const newTags = tags.slice();
 
@@ -55,7 +63,7 @@ export default class Suggest extends Component {
 
         // re-render
         this.setState({ tags: newTags });
-    }
+    };
 
     async submit() {
         const ingredients = [];
@@ -73,6 +81,7 @@ export default class Suggest extends Component {
 
     render() {
         const { tags, suggestions, suggestionResults } = this.state;
+
         return (
             <div className="suggest">
                 <div className="title-smaller">
@@ -91,14 +100,15 @@ export default class Suggest extends Component {
                             handleAddition={this.handleAddition}
                             handleDrag={this.handleDrag}
                             delimiters={delimiters}
+                            autocomplete
                         />
                     </div>
-                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "2vh", marginTop: "2vh" }}>
+                    {/* <div style={{ display: "flex", justifyContent: "center", marginBottom: "2vh", marginTop: "2vh" }}>
                         <button style={{ margin: "20px" }} onClick={this.submit}>
                             Föreslå
                         </button>
-                    </div>
-                    {this.state.tags.length !== 0 && <SuggestionList data={suggestionResults} />}
+                    </div> */}
+                    <SuggestionList data={suggestionResults} />
                 </div>
             </div>
         );
