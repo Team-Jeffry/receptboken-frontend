@@ -79,6 +79,12 @@ export default class Suggest extends Component {
             .catch((error) => console.log(error));
     }
 
+    checkResults () {
+        if(this.state.suggestionResults.length === 0){
+            return <div>Hittade inga recept</div>
+        } 
+    }
+
     render() {
         const { tags, suggestions, suggestionResults } = this.state;
 
@@ -108,6 +114,7 @@ export default class Suggest extends Component {
                             Föreslå
                         </button>
                     </div> */}
+                    {this.checkResults()}
                     <SuggestionList data={suggestionResults} />
                 </div>
             </div>
