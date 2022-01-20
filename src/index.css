@@ -226,6 +226,11 @@ mark {
 .modal-body {
   text-align: center;
   padding-bottom: 50px !important;
+  border: none !important;
+}
+
+.modal-content {
+    border: none !important;
 }
 
 .close-button {
@@ -266,4 +271,12 @@ input.ReactTags__tagInputField {
 
 span.MuiTypography-root {
     font-size: 15px;
+}
+
+.instruction {    
+    padding-right: 50px;
+}
+
+.instruction-text {
+    padding: 0px 20px;
 }
