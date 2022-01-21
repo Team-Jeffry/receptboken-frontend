@@ -85,8 +85,11 @@ export default class Suggest extends Component {
     handleInputChange() {
         if(!this.state.checkField){
         this.setState({ checkField: true })
-        
+        } 
+        if(this.state.suggestionResults.length === 0){
+            this.setState({ checkField: false })
         }
+
     }
 
     checkResults () {
@@ -101,12 +104,12 @@ export default class Suggest extends Component {
         
         console.log(hasText)
 
-        if(this.state.suggestionResults.length === 0 && this.state.checkField){
-            return <div>{hasText && (
+        
+            return <div>{hasText && this.state.suggestionResults.length === 0 && (
             <div>Hittade inga recept</div>
             )}
             </div>
-        } 
+        
     }
 
     render() {
@@ -139,7 +142,9 @@ export default class Suggest extends Component {
                             Föreslå
                         </button>
                     </div> */}
+                    <div style={{display: "flex", justifyContent: "center", paddingTop: "20px", fontStyle: "italic"}}>
                     {this.checkResults()}
+                    </div>
                     <SuggestionList data={suggestionResults} />
                 </div>
             </div>

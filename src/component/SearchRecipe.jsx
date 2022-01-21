@@ -150,9 +150,13 @@ class SearchRecipe extends React.Component {
               Sök
             </button>
           </div>
-          {this.state.categoryTags.length !== 0 && (
+          {suggestionResults.length !== 0 && (
             <SuggestionList data={suggestionResults} />
           )}
+
+          {suggestionResults.length === 0 && <div style={{display: "flex", justifyContent: "center", paddingTop: "20px", fontStyle: "italic"}}>
+                    {<div>Hittade inga recept</div>}
+                    </div>}
         </div>
       </div>
     );
