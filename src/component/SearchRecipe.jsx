@@ -4,178 +4,177 @@ import Axios from "axios";
 import SuggestionList from "./SuggestionList";
 
 const keyCodes = {
-    comma: 188,
-    enter: [10, 13],
+  comma: 188,
+  enter: [10, 13],
 };
 
 const delimiters = [...keyCodes.enter, keyCodes.comma];
 
 class SearchRecipe extends React.Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
-        this.handleAdditionCategory = this.handleAdditionCategory.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.submit = this.submit.bind(this);
+    this.handleDeleteCategory = this.handleDeleteCategory.bind(this);
+    this.handleAdditionCategory = this.handleAdditionCategory.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.submit = this.submit.bind(this);
 
-        this.state = {
-            categoryTags: [],
-            categorySuggestions: [],
-            suggestionResults: [],
-            saveRecipeJson: {
-                name: "",
-                time: "",
-                categoryNames: [],
-            },
-        };
-    }
+    this.state = {
+      categoryTags: [],
+      categorySuggestions: [],
+      suggestionResults: [],
+      saveRecipeJson: {
+        name: "",
+        time: "",
+        categoryNames: [],
+      },
+      buttonClicked: false,
+    };
+  }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.value;
-        const name = target.id;
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.id;
 
-        this.setState({
-            saveRecipeJson: {
-                ...this.state.saveRecipeJson,
-                [name]: value,
-            },
+    this.setState({
+      saveRecipeJson: {
+        ...this.state.saveRecipeJson,
+        [name]: value,
+      },
+    });
+  }
+
+  async componentDidMount() {
+    await Axios.get("http://localhost:8080/v1/category/all").then(
+      (response) => {
+        const categories = response.data.map((element) => {
+          return {
+            id: element.name,
+            text: element.name,
+          };
         });
+        this.setState({ categorySuggestions: categories });
+      }
+    );
+  }
+
+  async submit() {
+    const categories = [];
+
+    if (!this.state.buttonClicked) {
+      this.setState({ buttonClicked: true });
     }
 
-    async submit() {
-        const categories = [];
+    this.state.categoryTags.forEach((element) => {
+      categories.push(element.text);
+    });
 
-        this.state.categoryTags.forEach((element) => {
-            categories.push(element.text);
-        });
+    const requestBody = {
+      recipeName: this.state.saveRecipeJson.name,
+      categoryNames: categories,
+      time: this.state.saveRecipeJson.time,
+    };
 
-        const requestBody = {
-            recipeName: this.state.saveRecipeJson.name,
-            categoryNames: categories,
-            time: this.state.saveRecipeJson.time,
-        };
+    await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
+      .then((response) => {
+        this.setState({ suggestionResults: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-        await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
-            .then((response) => {
-                this.setState({ suggestionResults: response.data });
-                console.log(this.state.suggestionResults);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+  handleDeleteCategory(i) {
+    const { categoryTags } = this.state;
+    this.setState({
+      categoryTags: categoryTags.filter((tag, index) => index !== i),
+    });
+  }
 
-    async componentDidMount() {
-        await Axios.get("http://localhost:8080/v1/category/all").then((response) => {
-            const categories = response.data.map((element) => {
-                return {
-                    id: element.name,
-                    text: element.name,
-                };
-            });
-            this.setState({ categorySuggestions: categories });
-        });
-    }
+  handleAdditionCategory(tag) {
+    this.setState((state) => ({ categoryTags: [...state.categoryTags, tag] }));
+  }
 
-    async submit() {
-        const categories = [];
+  handleDrag(tag, currPos, newPos) {
+    const tags = [...this.state.tags];
+    const newTags = tags.slice();
 
-        this.state.categoryTags.forEach((element) => {
-            categories.push(element.text);
-        });
+    newTags.splice(currPos, 1);
+    newTags.splice(newPos, 0, tag);
 
-        const requestBody = {
-            recipeName: this.state.saveRecipeJson.name,
-            categoryNames: categories,
-            time: this.state.saveRecipeJson.time,
-        };
+    // re-render
+    this.setState({ tags: newTags });
+  }
 
-        await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
-            .then((response) => {
-                this.setState({ suggestionResults: response.data });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+  render() {
+    const categoryTags = this.state.categoryTags;
+    const categorySuggestions = this.state.categorySuggestions;
+    const suggestionResults = this.state.suggestionResults;
 
-    handleDeleteCategory(i) {
-        const { categoryTags } = this.state;
-        this.setState({
-            categoryTags: categoryTags.filter((tag, index) => index !== i),
-        });
-    }
-
-    handleAdditionCategory(tag) {
-        this.setState((state) => ({ categoryTags: [...state.categoryTags, tag] }));
-    }
-
-    handleDrag(tag, currPos, newPos) {
-        const tags = [...this.state.tags];
-        const newTags = tags.slice();
-
-        newTags.splice(currPos, 1);
-        newTags.splice(newPos, 0, tag);
-
-        // re-render
-        this.setState({ tags: newTags });
-    }
-
-    render() {
-        const categoryTags = this.state.categoryTags;
-        const categorySuggestions = this.state.categorySuggestions;
-        const suggestionResults = this.state.suggestionResults;
-
-        return (
-            <div>
-                <div className="search-recipe">
-                    <div className="blurredBackground" />
-                    <div className="container">
-                        <div className="title-smaller">
-                            <h1>Sök efter recept</h1>
-                        </div>
-                        <form>
-                            <input
-                                onChange={(e) => this.handleInputChange(e)}
-                                type="text"
-                                id="name"
-                                value={this.state.saveRecipeJson.name}
-                                placeholder="Namn på recept"
-                            />
-                            <br />
-                            <input
-                                onChange={(e) => this.handleInputChange(e)}
-                                type="number"
-                                id="time"
-                                value={this.state.saveRecipeJson.time}
-                                placeholder="Tillagningstid"
-                            />
-                        </form>
-                        <ReactTags
-                            inputFieldPosition="top"
-                            allowDragDrop={true}
-                            allowUnique={true}
-                            placeholder="Kategori"
-                            suggestions={categorySuggestions}
-                            tags={categoryTags}
-                            handleDelete={this.handleDeleteCategory}
-                            handleAddition={this.handleAdditionCategory}
-                            delimiters={delimiters}
-                            autocomplete
-                        />
-                        <br />
-                        <button style={{ margin: "20px" }} onClick={this.submit}>
-                            Sök
-                        </button>
-                        <SuggestionList data={suggestionResults} />
-                    </div>
-                </div>
+    return (
+      <div>
+        <div className="search-recipe">
+          <div className="blurredBackground" />
+          <div className="container">
+            <div className="title-smaller">
+              <h1>Sök efter recept</h1>
             </div>
-        );
-    }
+
+            <form>
+              <input
+                onChange={(e) => this.handleInputChange(e)}
+                type="text"
+                id="name"
+                value={this.state.saveRecipeJson.name}
+                placeholder="Namn på recept"
+              />
+              <br />
+              <input
+                onChange={(e) => this.handleInputChange(e)}
+                type="number"
+                id="time"
+                value={this.state.saveRecipeJson.time}
+                placeholder="Tillagningstid"
+              />
+            </form>
+            <ReactTags
+              inputFieldPosition="top"
+              allowDragDrop={true}
+              allowUnique={true}
+              placeholder="Kategori"
+              suggestions={categorySuggestions}
+              tags={categoryTags}
+              handleDelete={this.handleDeleteCategory}
+              handleAddition={this.handleAdditionCategory}
+              delimiters={delimiters}
+            />
+            <br />
+            <button style={{ margin: "20px" }} onClick={this.submit}>
+              Sök
+            </button>
+            {suggestionResults.length !== 0 && (
+              <SuggestionList data={suggestionResults} />
+            )}
+
+            {suggestionResults.length === 0 && this.state.buttonClicked && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingTop: "20px",
+                  fontStyle: "italic",
+                }}
+              >
+                {<div>Hittade inga recept</div>}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default SearchRecipe;
