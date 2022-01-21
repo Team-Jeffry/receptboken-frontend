@@ -29,6 +29,7 @@ class SearchRecipe extends React.Component {
         time: "",
         categoryNames: [],
       },
+      buttonClicked: false,
     };
   }
 
@@ -45,8 +46,26 @@ class SearchRecipe extends React.Component {
     });
   }
 
+  async componentDidMount() {
+    await Axios.get("http://localhost:8080/v1/category/all").then(
+      (response) => {
+        const categories = response.data.map((element) => {
+          return {
+            id: element.name,
+            text: element.name,
+          };
+        });
+        this.setState({ categorySuggestions: categories });
+      }
+    );
+  }
+
   async submit() {
     const categories = [];
+
+    if (!this.state.buttonClicked) {
+      this.setState({ buttonClicked: true });
+    }
 
     this.state.categoryTags.forEach((element) => {
       categories.push(element.text);
@@ -61,25 +80,10 @@ class SearchRecipe extends React.Component {
     await Axios.post("http://localhost:8080/v1/recipe/get", requestBody)
       .then((response) => {
         this.setState({ suggestionResults: response.data });
-        console.log(this.state.suggestionResults);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  async componentDidMount() {
-    await Axios.get("http://localhost:8080/v1/category/all").then(
-      (response) => {
-        const categories = response.data.map((element) => {
-          return {
-            id: element.name,
-            text: element.name,
-          };
-        });
-        this.setState({ categorySuggestions: categories });
-      }
-    );
   }
 
   handleDeleteCategory(i) {
@@ -117,6 +121,7 @@ class SearchRecipe extends React.Component {
             <div className="title-smaller">
               <h1>Sök efter recept</h1>
             </div>
+
             <form>
               <input
                 onChange={(e) => this.handleInputChange(e)}
@@ -149,14 +154,23 @@ class SearchRecipe extends React.Component {
             <button style={{ margin: "20px" }} onClick={this.submit}>
               Sök
             </button>
-          </div>
-          {suggestionResults.length !== 0 && (
-            <SuggestionList data={suggestionResults} />
-          )}
+            {suggestionResults.length !== 0 && (
+              <SuggestionList data={suggestionResults} />
+            )}
 
-          {suggestionResults.length === 0 && <div style={{display: "flex", justifyContent: "center", paddingTop: "20px", fontStyle: "italic"}}>
-                    {<div>Hittade inga recept</div>}
-                    </div>}
+            {suggestionResults.length === 0 && this.state.buttonClicked && (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingTop: "20px",
+                  fontStyle: "italic",
+                }}
+              >
+                {<div>Hittade inga recept</div>}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

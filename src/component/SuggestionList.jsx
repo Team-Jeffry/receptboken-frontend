@@ -17,14 +17,17 @@ export default class SuggestionList extends Component {
 
         this.state = {
             modalShowHide: false,
+            renderedElement: undefined,
         };
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick = () => {
-        this.setState({ modalShowHide: !this.state.modalShowHide });
+    handleClick = (elementName) => {
+        this.setState({ renderedElement: elementName, modalShowHide: !this.state.modalShowHide });
     };
 
-    render() {          
+    render() {
         return (
             <div>
                 {this.props.data.length !== 0 && (
@@ -39,8 +42,11 @@ export default class SuggestionList extends Component {
                                                 disablePadding
                                                 style={{ backgroundColor: "whitesmoke", borderRadius: "8px", marginBottom: "6px" }}
                                             >
-                                                <ListItemButton onClick={() => this.handleClick()}>
-                                                    <ShowRecipe showHide={this.state.modalShowHide} recipe={element}/>
+                                                <ListItemButton onClick={() => this.handleClick(element.name)}>
+                                                    <ShowRecipe
+                                                        showHide={this.state.renderedElement === element.name && this.state.modalShowHide}
+                                                        recipe={element}
+                                                    />
                                                     <ListItemText primary={element.name} />
                                                 </ListItemButton>
                                             </ListItem>

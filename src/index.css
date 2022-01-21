@@ -27,17 +27,17 @@ code {
 }
 
 button {
-  display: inline-block;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px !important;
-  margin: 10px !important;
-  border-radius: 5px !important;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 15px;
-  font-family: inherit;
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px !important;
+    margin: 10px !important;
+    border-radius: 5px !important;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: inherit;
 }
 
 .container {
@@ -79,7 +79,8 @@ button {
     background-color: #fff;
 }
 
-.save-recipe, .search-recipe {
+.save-recipe,
+.search-recipe {
     position: relative;
     width: 100%;
     height: 100vh;
@@ -89,17 +90,17 @@ button {
 }
 
 .blurredBackground {
-    position: relative;    
+    position: relative;
     width: 100%;
-    height: 100vh;    
+    height: 100vh;
     background-size: cover;
     background-position: center;
     background-image: url("images/background.jpeg");
-    filter: blur(10px);    
-    -webkit-filter: blur(10px);    
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
     -o-filter: blur(10px);
     -ms-filter: blur(10px);
-    transform: scale(1.1);    
+    transform: scale(1.1);
 }
 
 div {
@@ -206,27 +207,28 @@ mark {
 }
 
 .modal-title {
-  padding-bottom: 17px;
-  text-align: center !important;
-  font-weight: bold !important;
-  font-size: 20px;
+    padding-bottom: 17px;
+    text-align: center !important;
+    font-weight: bold !important;
+    font-size: 20px;
 }
 
 .modal-description {
-  padding-bottom: 40px !important;
-  font-style: italic;
+    padding-bottom: 40px !important;
+    font-style: italic;
 }
 
-.modal-header, .modal-footer {
-  padding-bottom: 0px !important;
-  justify-content: center;
-  border: none !important;
+.modal-header,
+.modal-footer {
+    padding-bottom: 0px !important;
+    justify-content: center;
+    border: none !important;
 }
 
 .modal-body {
-  text-align: center;
-  padding-bottom: 50px !important;
-  border: none !important;
+    text-align: center;
+    padding-bottom: 50px !important;
+    border: none !important;
 }
 
 .modal-content {
@@ -234,7 +236,7 @@ mark {
 }
 
 .close-button {
-  justify-content: right !important;
+    justify-content: right !important;
 }
 
 li {
@@ -257,10 +259,11 @@ input.ReactTags__tagInputField {
 }
 
 .suggest-inner {
+    padding-left: 10%;
+    padding-right: 10%;
     display: block;
     margin-left: auto;
-    margin-right: auto;
-    width: 600px;
+    margin-right: auto;    
 }
 
 .tags-field:first-child {
@@ -273,7 +276,7 @@ span.MuiTypography-root {
     font-size: 15px;
 }
 
-.instruction {    
+.instruction {
     padding-right: 50px;
 }
 
