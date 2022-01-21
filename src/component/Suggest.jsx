@@ -19,6 +19,7 @@ export default class Suggest extends Component {
             prevTags: [],
             suggestions: [],
             suggestionResults: [],
+            inputValue: this.props.value,
         };
 
         this.handleDelete = this.handleDelete.bind(this);
@@ -42,6 +43,14 @@ export default class Suggest extends Component {
             await this.submit();
         }
     }
+
+    handleInputChange(event) {
+        console.log(event)
+        this.setState({
+        inputValue: event.target.value
+    });
+        this.props.onChange(event);
+      }
 
     handleDelete = (i) => {
         const { tags } = this.state;
@@ -102,6 +111,7 @@ export default class Suggest extends Component {
                             placeholder="Vad har du hemma?"
                             suggestions={suggestions}
                             tags={tags}
+                            handleInputChange={this.handleInputChange}
                             handleDelete={this.handleDelete}
                             handleAddition={this.handleAddition}
                             handleDrag={this.handleDrag}
