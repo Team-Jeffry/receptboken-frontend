@@ -19,13 +19,15 @@ export default class Suggest extends Component {
             prevTags: [],
             suggestions: [],
             suggestionResults: [],
-            inputValue: this.props.value,
+            checkField: false,
         };
 
         this.handleDelete = this.handleDelete.bind(this);
         this.handleAddition = this.handleAddition.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
         this.submit = this.submit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.checkResults = this.checkResults.bind(this);
     }
 
     componentDidMount() {
@@ -43,14 +45,6 @@ export default class Suggest extends Component {
             await this.submit();
         }
     }
-
-    handleInputChange(event) {
-        console.log(event)
-        this.setState({
-        inputValue: event.target.value
-    });
-        this.props.onChange(event);
-      }
 
     handleDelete = (i) => {
         const { tags } = this.state;
@@ -88,9 +82,30 @@ export default class Suggest extends Component {
             .catch((error) => console.log(error));
     }
 
+    handleInputChange() {
+        if(!this.state.checkField){
+        this.setState({ checkField: true })
+        
+        }
+    }
+
     checkResults () {
-        if(this.state.suggestionResults.length === 0){
-            return <div>Hittade inga recept</div>
+        const fieldArray = document.getElementsByClassName('ReactTags__tagInputField')
+        let hasText = false;
+
+        for (let i = 0; i < fieldArray.length; i++){
+            if(fieldArray[i].value.length !== 0) {
+                hasText = true;
+            }  
+        }
+        
+        console.log(hasText)
+
+        if(this.state.suggestionResults.length === 0 && this.state.checkField){
+            return <div>{hasText && (
+            <div>Hittade inga recept</div>
+            )}
+            </div>
         } 
     }
 
