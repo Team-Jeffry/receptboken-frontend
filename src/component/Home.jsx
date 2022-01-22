@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-scroll";
-import ShowRecipe from ".//ShowRecipe"
 
 const style = {
     display: "flex",

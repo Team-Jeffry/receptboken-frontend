@@ -5,6 +5,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ShowRecipe from "./ShowRecipe";
+import { PropTypes } from "prop-types";
 
 const listStyle = {
     display: "flex",
@@ -61,3 +62,7 @@ export default class SuggestionList extends Component {
         );
     }
 }
+
+SuggestionList.propTypes = {
+    data: PropTypes.array,
+};
