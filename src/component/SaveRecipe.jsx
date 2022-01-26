@@ -1,6 +1,7 @@
 import React from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import Axios from "axios";
+import { apiUrl } from "../config";
 
 const keyCodes = {
     comma: 188,
@@ -79,7 +80,7 @@ class SaveRecipe extends React.Component {
             categoryNames: categories,
         };
 
-        await Axios.post("http://localhost:8080/v1/recipe/save", requestBody)
+        await Axios.post(apiUrl + "/v1/recipe/save", requestBody)
             .then(() => {
                 this.setState({
                     suggestions: [],
@@ -107,7 +108,7 @@ class SaveRecipe extends React.Component {
     }
 
     async componentDidMount() {
-        await Axios.get("http://localhost:8080/v1/ingredient/all").then((response) => {
+        await Axios.get(apiUrl + "/v1/ingredient/all").then((response) => {
             const ingredients = response.data.map((element) => {
                 return {
                     id: element.name,
@@ -118,7 +119,7 @@ class SaveRecipe extends React.Component {
             this.setState({ suggestions: ingredients });
         });
 
-        await Axios.get("http://localhost:8080/v1/category/all").then((response) => {
+        await Axios.get(apiUrl + "/v1/category/all").then((response) => {
             const categories = response.data.map((element) => {
                 return {
                     id: element.name,
