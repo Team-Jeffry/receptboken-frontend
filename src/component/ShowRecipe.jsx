@@ -1,13 +1,12 @@
-import axios from "axios";
 import React, { Component } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 class ShowRecipe extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showHide: this.props.showHide,
             ingredients: [],
             categories: [],
         };
@@ -63,5 +62,10 @@ class ShowRecipe extends Component {
         );
     }
 }
+
+ShowRecipe.propTypes = {
+    showHide: PropTypes.bool,
+    recipe: PropTypes.object
+};
 
 export default ShowRecipe;
