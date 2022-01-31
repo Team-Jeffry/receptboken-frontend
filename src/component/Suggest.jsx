@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import Axios from "axios";
 import SuggestionList from "./SuggestionList";
-import { apiUrl } from "../config";
 
 const keyCodes = {
     comma: 188,
@@ -32,7 +31,7 @@ export default class Suggest extends Component {
     }
 
     componentDidMount() {
-        Axios.get(apiUrl +"/v1/ingredient/all").then((response) => {
+        Axios.get("/api/v1/ingredient/all").then((response) => {
             const ingredients = response.data.map((element) => {
                 return { id: element.name, text: element.name };
             });
@@ -76,7 +75,7 @@ export default class Suggest extends Component {
             ingredients.push({ name: element.text });
         });
 
-        await Axios.post(apiUrl + "/v1/recipe/suggest", ingredients)
+        await Axios.post("/api/v1/recipe/suggest", ingredients)
             .then((response) => {
                 this.setState({ suggestionResults: response.data });
             })
