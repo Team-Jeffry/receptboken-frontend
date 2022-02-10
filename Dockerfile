@@ -14,6 +14,4 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 RUN npm run build
 
-# COPY --from=build /app/build /bin/www
-
 CMD ["npm", "start"]
