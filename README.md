@@ -1,4 +1,4 @@
-## Receptbokens frontend
+## Frontend
 
 URL: http://34.91.128.48/ (Swedish)
 
