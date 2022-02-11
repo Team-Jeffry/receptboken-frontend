@@ -1,6 +1,7 @@
 import React from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import Axios from "axios";
+import { apiUrl } from "../config";
 
 const keyCodes = {
     comma: 188,
@@ -19,6 +20,7 @@ class SaveRecipe extends React.Component {
         this.handleAdditionCategory = this.handleAdditionCategory.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.canSubmit = this.canSubmit.bind(this);
         this.submit = this.submit.bind(this);
 
         this.state = {
@@ -31,12 +33,7 @@ class SaveRecipe extends React.Component {
                 description: "",
                 instruction: "",
                 time: "",
-                ingredients: [
-                    {
-                        name: "",
-                        description: "",
-                    },
-                ],
+                ingredientNames: [],
                 categoryNames: [],
             },
         };
@@ -55,15 +52,23 @@ class SaveRecipe extends React.Component {
         });
     }
 
+    canSubmit(requestBody) {
+        
+        return (
+            requestBody.name !== "" &&
+            requestBody.description !== "" &&
+            requestBody.instruction !== "" &&
+            requestBody.ingredientNames.length > 0 &&
+            requestBody.categoryNames.length > 0
+        );
+    }
+
     async submit() {
         const ingredients = [];
         const categories = [];
 
         this.state.tags.forEach((element) => {
-            ingredients.push({
-                name: element.text,
-                description: element.description,
-            });
+            ingredients.push(element.text);
         });
 
         this.state.categoryTags.forEach((element) => {
@@ -74,40 +79,42 @@ class SaveRecipe extends React.Component {
             name: this.state.saveRecipeJson.name,
             description: this.state.saveRecipeJson.description,
             instruction: this.state.saveRecipeJson.instruction,
-            time: this.state.saveRecipeJson.time,
-            ingredients: ingredients,
+            time: this.state.saveRecipeJson.time === "" ? 0 : this.state.saveRecipeJson.time,
+            ingredientNames: ingredients,
             categoryNames: categories,
         };
 
-        await Axios.post("/api/v1/recipe/save", requestBody)
-            .then(() => {
-                this.setState({
-                    suggestions: [],
-                    tags: [],
-                    categorySuggestions: [],
-                    categoryTags: [],
-                    saveRecipeJson: {
-                        ...this.state.saveRecipeJson,
-                        name: "",
-                        description: "",
-                        instruction: "",
-                        time: "",
-                        ingredients: {
+        if (this.canSubmit(requestBody)) {
+            await Axios.post(apiUrl + "/v1/recipe/save", requestBody)
+                .then(() => {
+                    this.setState({
+                        suggestions: [],
+                        tags: [],
+                        categorySuggestions: [],
+                        categoryTags: [],
+                        saveRecipeJson: {
+                            ...this.state.saveRecipeJson,
                             name: "",
                             description: "",
+                            instruction: "",
+                            time: "",
+                            ingredientNames: [],
+                            categoryNames: [],
                         },
-                        categoryNames: [],
-                    },
+                    });
+                })
+                .finally(() => {
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    // eslint-disable-next-line no-console
+                    console.log(error);
                 });
-            })
-            .catch((error) => {
-                // eslint-disable-next-line no-console
-                console.log(error);
-            });
+        }
     }
 
     async componentDidMount() {
-        await Axios.get("/api/v1/ingredient/all").then((response) => {
+        await Axios.get(apiUrl + "/v1/ingredient/all").then((response) => {
             const ingredients = response.data.map((element) => {
                 return {
                     id: element.name,
@@ -118,7 +125,7 @@ class SaveRecipe extends React.Component {
             this.setState({ suggestions: ingredients });
         });
 
-        await Axios.get("/api/v1/category/all").then((response) => {
+        await Axios.get(apiUrl + "/v1/category/all").then((response) => {
             const categories = response.data.map((element) => {
                 return {
                     id: element.name,
